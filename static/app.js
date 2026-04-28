@@ -2165,6 +2165,43 @@ async function fetchJson(url, options = {}) {
   return payload;
 }
 
+async function downloadBinary(url, { method = "GET", headers = {}, body = null, fallbackName = "download.bin" } = {}) {
+  const response = await fetch(apiUrl(url), {
+    method,
+    headers,
+    body,
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const contentType = response.headers.get("content-type") || "";
+    const payload = contentType.includes("application/json")
+      ? await response.json()
+      : { error: await response.text() };
+    const error = new Error(payload.error || "Falha ao descarregar ficheiro.");
+    error.status = response.status;
+    throw error;
+  }
+
+  const blob = await response.blob();
+  const contentDisposition = response.headers.get("content-disposition") || "";
+  const match = contentDisposition.match(/filename="?([^"]+)"?/i);
+  const fileName = match?.[1] || fallbackName;
+  const urlObject = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = urlObject;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(urlObject);
+
+  return {
+    fileName,
+    warning: response.headers.get("x-export-warning") || "",
+  };
+}
+
 async function loadSession() {
   const payload = await fetchJson("/api/auth/session", { allowUnauthorized: true });
   state.currentUser = payload?.user || null;
@@ -2626,15 +2663,15 @@ els.exportProject.addEventListener("click", async () => {
     if (state.isDirty) {
       await saveEdits({ silent: true });
     }
-    const payload = await fetchJson("/api/export", {
+    const result = await downloadBinary("/api/export/download", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ project_slug: state.project.slug }),
+      fallbackName: `${state.project.slug || "projeto"}-gantt.xlsx`,
     });
-    if (payload.warning) {
-      window.alert(payload.warning);
+    if (result.warning) {
+      window.alert(result.warning);
     }
-    window.open(apiUrl(payload.file), "_blank", "noopener");
   } catch (error) {
     handleError(error);
   }

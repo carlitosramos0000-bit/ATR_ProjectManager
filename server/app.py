@@ -7,6 +7,7 @@ import mimetypes
 import os
 import re
 import threading
+import tempfile
 from datetime import datetime
 from http import HTTPStatus
 from http.cookies import SimpleCookie
@@ -216,6 +217,8 @@ class ProjectManagerHandler(BaseHTTPRequestHandler):
             return self.handle_import()
         if parsed.path == "/api/export":
             return self.handle_export()
+        if parsed.path == "/api/export/download":
+            return self.handle_export_download()
         if parsed.path == "/api/project/update":
             return self.handle_project_update(user)
         if parsed.path == "/api/alerts/config":
@@ -350,13 +353,12 @@ class ProjectManagerHandler(BaseHTTPRequestHandler):
             response_payload["warning"] = warning
         return self.send_json(response_payload)
 
-    def handle_export(self) -> None:
-        payload = self.read_json()
-        slug = payload.get("project_slug", "")
+    def build_export_file(self, slug: str) -> tuple[dict, str, bytes, str | None]:
         path = PROJECTS_DIR / f"{slug}.json"
         if not path.exists():
-            return self.send_json({"error": "Projeto nao encontrado."}, status=404)
+            raise FileNotFoundError("Projeto nao encontrado.")
         project = read_json(path, {})
+        project = sanitize_project_workspace_history(project, path)
         workbook_path = Path(project.get("workbook_path") or (WORKBOOKS_DIR / f"{slug}.xlsx"))
         synced_workbook_path, warning = sync_workbook_snapshot(project, workbook_path, slug)
         project["workbook_path"] = str(synced_workbook_path)
@@ -364,16 +366,51 @@ class ProjectManagerHandler(BaseHTTPRequestHandler):
             project["sync_warning"] = warning
         else:
             project.pop("sync_warning", None)
+
+        with tempfile.NamedTemporaryFile(prefix=f"{slug}-gantt-", suffix=".xlsx", delete=False) as handle:
+            temp_path = Path(handle.name)
         try:
-            export_path = export_project(project, EXPORTS_DIR / f"{slug}-gantt.xlsx")
-        except Exception as exc:
-            write_json(path, project)
-            return self.send_json({"error": f"Falha na exportacao do Excel: {exc}"}, status=400)
+            export_path = export_project(project, temp_path)
+            content = export_path.read_bytes()
+        finally:
+            temp_path.unlink(missing_ok=True)
+
         write_json(path, project)
+        return project, f"{slug}-gantt.xlsx", content, warning
+
+    def handle_export(self) -> None:
+        payload = self.read_json()
+        slug = payload.get("project_slug", "")
+        try:
+            _, export_name, content, warning = self.build_export_file(slug)
+        except Exception as exc:
+            return self.send_json({"error": f"Falha na exportacao do Excel: {exc}"}, status=400)
+        export_path = EXPORTS_DIR / export_name
+        export_path.parent.mkdir(parents=True, exist_ok=True)
+        export_path.write_bytes(content)
         payload = {"file": f"/exports/{export_path.name}", "name": export_path.name}
         if warning:
             payload["warning"] = warning
         return self.send_json(payload)
+
+    def handle_export_download(self) -> None:
+        payload = self.read_json()
+        slug = payload.get("project_slug", "")
+        try:
+            _, export_name, content, warning = self.build_export_file(slug)
+        except FileNotFoundError:
+            return self.send_json({"error": "Projeto nao encontrado."}, status=404)
+        except Exception as exc:
+            return self.send_json({"error": f"Falha na exportacao do Excel: {exc}"}, status=400)
+
+        self.send_response(200)
+        self.send_header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        self.send_header("Content-Disposition", f'attachment; filename="{export_name}"')
+        self.send_header("Content-Length", str(len(content)))
+        if warning:
+            self.send_header("X-Export-Warning", warning)
+        self.end_headers()
+        self.wfile.write(content)
 
     def handle_ai_chat(self) -> None:
         payload = self.read_json()
@@ -459,10 +496,14 @@ class ProjectManagerHandler(BaseHTTPRequestHandler):
         content_type, _ = mimetypes.guess_type(str(target))
         if content_type and (content_type.startswith("text/") or "javascript" in content_type):
             content_type = f"{content_type}; charset=utf-8"
+        body = target.read_bytes()
         self.send_response(200)
         self.send_header("Content-Type", content_type or "application/octet-stream")
+        self.send_header("Content-Length", str(len(body)))
+        if target.suffix.lower() in {".xlsx", ".pptx", ".csv"}:
+            self.send_header("Content-Disposition", f'attachment; filename="{target.name}"')
         self.end_headers()
-        self.wfile.write(target.read_bytes())
+        self.wfile.write(body)
 
     def read_json(self) -> dict:
         length = int(self.headers.get("Content-Length", "0") or 0)
