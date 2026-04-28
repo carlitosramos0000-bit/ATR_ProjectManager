@@ -80,6 +80,7 @@ const state = {
   lastAiReply: "",
   generatedAiFiles: [],
   aiBusy: false,
+  exportBusy: false,
 };
 
 const els = {
@@ -203,6 +204,18 @@ function renderLoginMessage(message = "", isError = false) {
   els.loginMessage.textContent = message || "Inicia sessao para abrir o plano, editar o projeto e aceder ao workspace.";
   els.loginMessage.classList.toggle("is-error", Boolean(isError));
   els.loginMessage.classList.toggle("muted", !isError);
+}
+
+function renderExportButton() {
+  if (!els.exportProject) return;
+  els.exportProject.textContent = state.exportBusy ? "A preparar Gantt..." : "Exportar Gantt";
+  els.exportProject.classList.toggle("is-busy", state.exportBusy);
+  els.exportProject.setAttribute("aria-busy", state.exportBusy ? "true" : "false");
+}
+
+function setExportBusy(isBusy) {
+  state.exportBusy = Boolean(isBusy);
+  renderExportButton();
 }
 
 function renderAuthState() {
@@ -1930,7 +1943,7 @@ function renderWorkspace() {
     els.refreshProjects.disabled = !state.currentUser;
   }
   if (els.exportProject) {
-    els.exportProject.disabled = !state.currentUser || !state.project;
+    els.exportProject.disabled = state.exportBusy || !state.currentUser || !state.project;
   }
   if (els.saveEdits) {
     els.saveEdits.disabled = !state.currentUser || !state.project;
@@ -1938,6 +1951,7 @@ function renderWorkspace() {
   if (els.addPlanRow) {
     els.addPlanRow.disabled = !state.project || !state.currentUser;
   }
+  renderExportButton();
   if (els.userCreateForm) {
     for (const element of els.userCreateForm.querySelectorAll("button, input")) {
       element.disabled = !isAdmin();
@@ -2659,6 +2673,7 @@ els.exportProject.addEventListener("click", async () => {
       window.alert("Carrega um projeto antes de exportar.");
       return;
     }
+    setExportBusy(true);
     syncActiveInput();
     if (state.isDirty) {
       await saveEdits({ silent: true });
@@ -2674,6 +2689,8 @@ els.exportProject.addEventListener("click", async () => {
     }
   } catch (error) {
     handleError(error);
+  } finally {
+    setExportBusy(false);
   }
 });
 
