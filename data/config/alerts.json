@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "smtp_host": "smtp-relay.brevo.com",
+  "smtp_port": "587",
+  "smtp_username": " a8ccd9001@smtp-brevo.com",
+  "smtp_password": "bsk6fyIRf2sRE4h",
+  "sender": "a8ccd9001@smtp-brevo.com",
+  "recipients": [
+    "carlos.a.ramos@cgi.com"
+  ],
+  "days_before_deadline": 15,
+  "project_slug": "atr"
+}

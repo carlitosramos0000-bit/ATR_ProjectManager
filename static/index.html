@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evolucao de Projeto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="authOverlay" class="auth-overlay active">
+      <div class="auth-shell">
+        <section class="auth-brand-panel">
+          <div class="auth-brand-mark">
+            <img class="brand-logo" src="cgi-logo.png" alt="CGI" />
+          </div>
+          <div class="auth-brand-copy">
+            <p class="section-kicker">Secure Access</p>
+            <h2>Evolucao de Projeto</h2>
+            <p>
+              Acede ao cockpit com o teu utilizador e garante que apenas administradores conseguem mexer nas
+              configuracoes mais sensiveis.
+            </p>
+          </div>
+        </section>
+
+        <section class="auth-card">
+          <div class="auth-card-head">
+            <p class="section-kicker">Autenticacao</p>
+            <h3>Entrar na aplicacao</h3>
+            <p id="loginMessage" class="auth-message muted">
+              Inicia sessao para abrir o plano, editar o projeto e aceder ao workspace.
+            </p>
+          </div>
+          <form id="loginForm" class="stack-form" action="javascript:void(0)">
+            <label>
+              <span>User</span>
+              <input id="loginUsername" name="username" type="text" autocomplete="username" placeholder="ramoscv" />
+            </label>
+            <label>
+              <span>Password</span>
+              <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Password" />
+            </label>
+            <button type="submit" class="primary-btn">Entrar</button>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-logo-frame">
+            <img class="brand-logo" src="cgi-logo.png" alt="CGI" />
+          </div>
+          <div class="brand-copy-block">
+            <h1>Evolucao de Projeto</h1>
+            <div class="brand-meta-line">
+              <p class="brand-label">Executive PMO</p>
+              <span class="brand-signature">by Carlos Ramos</span>
+            </div>
+          </div>
+        </div>
+
+        <section class="sidebar-overview-card">
+          <div class="sidebar-overview-head">
+            <div>
+              <p class="sidebar-eyebrow">Overview</p>
+              <strong id="sidebarOverviewTitle">Sem projeto carregado</strong>
+            </div>
+            <span id="sidebarOverviewBadge" class="sidebar-overview-badge">0%</span>
+          </div>
+          <div class="sidebar-overview-body">
+            <div id="sidebarMiniRing" class="sidebar-mini-ring">
+              <div class="sidebar-mini-ring-inner">
+                <strong>0%</strong>
+                <span>Global</span>
+              </div>
+            </div>
+            <div id="sidebarMiniStats" class="sidebar-mini-stats"></div>
+          </div>
+          <div id="sidebarMiniBars" class="sidebar-mini-bars"></div>
+        </section>
+
+        <nav class="side-nav">
+          <button type="button" class="nav-link active" data-page="dashboard">
+            <strong>Dashboard</strong>
+            <span>Resumo executivo e leitura rapida</span>
+          </button>
+          <button type="button" class="nav-link" data-page="actions">
+            <strong>Acoes</strong>
+            <span>Edicao direta por prioridade</span>
+          </button>
+          <button type="button" class="nav-link" data-page="plan">
+            <strong>Plano Geral</strong>
+            <span>Vista completa e manutencao do plano</span>
+          </button>
+          <button type="button" class="nav-link" data-page="timeline">
+            <strong>Timeline</strong>
+            <span>Gantt e sequencia temporal</span>
+          </button>
+          <button type="button" class="nav-link" data-page="ai">
+            <strong>Workspace</strong>
+            <span>Apoio executivo, notas e geracao de ficheiros</span>
+          </button>
+          <button type="button" id="setupNav" class="nav-link" data-page="setup">
+            <strong>Configuracao</strong>
+            <span>Importacao, alertas e exportacao</span>
+          </button>
+        </nav>
+
+        <section class="sidebar-panel">
+          <label>
+            <span>Projeto ativo</span>
+            <select id="projectSelect"></select>
+          </label>
+          <div class="sidebar-actions">
+            <button type="button" id="loadProject" class="secondary-btn">Abrir</button>
+            <button type="button" id="exportProject" class="primary-btn">Exportar Gantt</button>
+          </div>
+        </section>
+
+        <section class="sidebar-project sidebar-project-accent">
+          <strong id="sidebarProjectName">Sem projeto carregado</strong>
+          <p id="sidebarProjectMeta">Importa um Excel ou CSV para comecar a trabalhar.</p>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="topbar-copy">
+            <p class="page-kicker" id="pageKicker">Resumo</p>
+            <h2 id="pageTitle">Dashboard Executivo</h2>
+            <p class="project-meta" id="projectMeta">Sem projeto carregado.</p>
+            <p id="connectionNotice" class="connection-notice hidden"></p>
+          </div>
+          <div class="topbar-actions">
+            <div id="sessionBadge" class="session-badge">
+              <strong id="sessionUserName">Sessao fechada</strong>
+              <span id="sessionUserRole">Autenticacao necessaria</span>
+            </div>
+            <div id="saveStateBadge" class="save-state">Sem alteracoes</div>
+            <button type="button" id="refreshProjects" class="ghost-btn">Atualizar lista</button>
+            <button type="button" id="saveEdits" class="primary-btn">Guardar alteracoes</button>
+            <button type="button" id="logoutButton" class="ghost-btn">Sair</button>
+          </div>
+        </header>
+
+        <section id="page-dashboard" class="page-section active">
+          <div class="dashboard-grid">
+            <article class="panel panel-wide executive-dashboard-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Executive Board</p>
+                  <h3>Leitura executiva do projeto</h3>
+                </div>
+              </div>
+              <p id="dashboardWelcomeText" class="helper-copy">
+                Escolhe ou importa um projeto para ver o estado atual, o risco imediato e a proxima vaga de trabalho.
+              </p>
+              <div id="executiveStrip" class="executive-strip"></div>
+              <div class="executive-dashboard-grid executive-dashboard-grid-compact">
+                <article class="executive-chart-card executive-chart-card-wide">
+                  <div class="chart-card-head">
+                    <div>
+                      <p class="section-kicker">Steering</p>
+                      <h4>Direcao do plano</h4>
+                    </div>
+                  </div>
+                  <div id="dashboardSummaryCards" class="overview-feature-grid executive-feature-grid">
+                    <div class="overview-feature">
+                      <span>Leitura rapida</span>
+                      <strong>Estado, risco e prioridades</strong>
+                    </div>
+                    <div class="overview-feature">
+                      <span>Hierarquia</span>
+                      <strong>Parent visivel em todos os issues</strong>
+                    </div>
+                    <div class="overview-feature">
+                      <span>Entrega</span>
+                      <strong>Exportacao sempre em Gantt</strong>
+                    </div>
+                  </div>
+                  <div id="kpiGrid" class="kpi-grid kpi-grid-compact"></div>
+                </article>
+                <article class="executive-chart-card executive-chart-card-dual">
+                  <section class="dashboard-side-section">
+                    <div class="chart-card-head">
+                      <div>
+                        <p class="section-kicker">Status Mix</p>
+                        <h4>Distribuicao do plano</h4>
+                      </div>
+                    </div>
+                    <div id="statusOverview" class="status-overview"></div>
+                  </section>
+                  <section class="dashboard-side-section">
+                    <div class="chart-card-head">
+                      <div>
+                        <p class="section-kicker">Pulse</p>
+                        <h4>Saude executiva</h4>
+                      </div>
+                    </div>
+                    <div id="executivePulse" class="executive-pulse"></div>
+                  </section>
+                </article>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Releases</p>
+                  <h3>Saude das releases</h3>
+                </div>
+              </div>
+              <div id="releaseSummary" class="bars"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Ownership</p>
+                  <h3>Responsaveis mais expostos</h3>
+                </div>
+              </div>
+              <div id="assigneeSummary" class="bars"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Alerts</p>
+                  <h3>Alertas e prazos a acompanhar</h3>
+                </div>
+              </div>
+              <div id="dashboardDeadlines" class="list-panel executive-alert-grid"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="page-actions" class="page-section">
+          <div class="page-grid">
+            <article class="panel panel-wide">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Quick Edit</p>
+                  <h3>Acoes em curso</h3>
+                </div>
+              </div>
+              <p class="helper-copy">
+                Esta vista foi pensada para manutencao rapida do dia a dia. Podes editar diretamente titulo, responsavel,
+                estado, datas, release e notas de justificacao.
+              </p>
+              <div id="activeActions" class="table-wrap"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Pipeline</p>
+                  <h3>Proximas acoes</h3>
+                </div>
+              </div>
+              <div id="upcomingActions" class="table-wrap"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Risks</p>
+                  <h3>Prazos criticos</h3>
+                </div>
+              </div>
+              <div id="riskActions" class="table-wrap"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="page-plan" class="page-section">
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="section-kicker">Master Plan</p>
+                <h3>Versao geral do plano</h3>
+              </div>
+              <div class="panel-head-actions">
+                <button type="button" id="addPlanRow" class="secondary-btn">Adicionar linha</button>
+                <button type="button" id="resetEdits" class="ghost-btn">Repor grelha</button>
+              </div>
+            </div>
+            <p class="helper-copy">
+              A versao geral serve para rever o projeto completo, fazer manutencao em massa e garantir que tudo o que
+              editas nas vistas rapidas, incluindo notas e justificacoes de prazo, continua sincronizado.
+            </p>
+            <div class="editor-toolbar">
+              <label>
+                <span>Pesquisar</span>
+                <input id="editorSearch" type="text" placeholder="Key, titulo, responsavel, parent ou release" />
+              </label>
+              <label>
+                <span>Vista</span>
+                <select id="editorFilter">
+                  <option value="all">Todas</option>
+                  <option value="active">Em curso</option>
+                  <option value="risk">Em risco</option>
+                  <option value="upcoming">Proximas</option>
+                  <option value="completed">Concluidas</option>
+                </select>
+              </label>
+            </div>
+            <p id="editorStatus" class="editor-status">Sem alteracoes por guardar.</p>
+            <div id="editorTable" class="editor-wrap"></div>
+          </article>
+        </section>
+
+        <section id="page-timeline" class="page-section">
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="section-kicker">Timeline</p>
+                <h3>Gantt do projeto</h3>
+              </div>
+            </div>
+            <p class="helper-copy">
+              A timeline reflete sempre a ultima versao guardada do plano e serve tambem como base para a exportacao do
+              Excel no formato de referencia.
+            </p>
+            <div id="ganttBoard" class="gantt-board empty">Importa ou abre um projeto para visualizar a timeline.</div>
+          </article>
+        </section>
+
+        <section id="page-ai" class="page-section">
+          <div class="page-grid ai-grid">
+            <article class="panel panel-wide ai-chat-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Workspace</p>
+                  <h3>Canal de trabalho executivo</h3>
+                </div>
+                <div class="panel-head-actions">
+                  <button type="button" id="downloadLastReply" class="ghost-btn">Descarregar ultima resposta</button>
+                  <button type="button" id="generateSteering" class="primary-btn">Gerar steering PPTX</button>
+                </div>
+              </div>
+              <p class="helper-copy">
+                Usa este workspace para pedir analise executiva, notas de steering, sumarios de risco e ficheiros
+                descarregaveis gerados a partir do plano atual.
+              </p>
+              <div id="aiContextSummary" class="ai-context-summary"></div>
+              <div id="aiMessages" class="ai-messages">
+                <article class="ai-message assistant">
+                  <div class="ai-message-meta">GPT</div>
+                  <div class="ai-message-body">
+                    Estou pronto para trabalhar com o plano atual e gerar respostas executivas ou um steering em PowerPoint.
+                  </div>
+                </article>
+              </div>
+              <form id="aiChatForm" class="ai-composer" action="javascript:void(0)">
+                <label>
+                  <span>Pedido</span>
+                  <textarea
+                    id="aiPrompt"
+                    name="prompt"
+                    rows="5"
+                    placeholder="Ex.: Gera uma leitura executiva do projeto e destaca o que esta em risco, o que esta a acontecer agora e o que vai acontecer a seguir."
+                  ></textarea>
+                </label>
+                <div class="inline-actions">
+                  <button type="submit" id="sendAiPrompt" class="secondary-btn">Enviar</button>
+                  <button type="button" id="generateSteeringSecondary" class="ghost-btn">Gerar steering com este pedido</button>
+                </div>
+              </form>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Workspace</p>
+                  <h3>Documentos gerados</h3>
+                </div>
+              </div>
+              <div class="ai-side-stack">
+                <section class="ai-side-card">
+                  <span class="ai-side-label">Modelo ativo</span>
+                  <strong id="aiModelLabel">gpt-5.4</strong>
+                  <p id="aiTemplateLabel" class="muted">Template steering nao configurado.</p>
+                </section>
+                <section class="ai-side-card">
+                  <span class="ai-side-label">Acoes rapidas</span>
+                  <div class="quick-action-list">
+                    <button type="button" class="quick-ai-btn" data-ai-prompt="Resume o projeto em linguagem de steering, com foco em progresso, riscos e proximos checkpoints.">
+                      Resumo de steering
+                    </button>
+                    <button type="button" class="quick-ai-btn" data-ai-prompt="Identifica o que esta em risco, a mitigacao sugerida e os owners a acompanhar.">
+                      Riscos e mitigacao
+                    </button>
+                    <button type="button" class="quick-ai-btn" data-ai-prompt="Prepara uma nota executiva sobre o que esta a acontecer agora e o que vai acontecer a seguir.">
+                      Agora e a seguir
+                    </button>
+                  </div>
+                </section>
+                <section class="ai-side-card">
+                  <span class="ai-side-label">Ultimos ficheiros</span>
+                  <div id="aiGeneratedFiles" class="generated-files-list">
+                    <p class="muted">Ainda nao existem ficheiros gerados nesta sessao.</p>
+                  </div>
+                </section>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="page-setup" class="page-section">
+          <div class="page-grid">
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Importacao</p>
+                  <h3>Carregar projeto</h3>
+                </div>
+              </div>
+
+              <form id="importForm" class="stack-form" action="javascript:void(0)">
+                <label>
+                  <span>Nome do projeto</span>
+                  <input type="text" name="projectName" placeholder="Define o nome apos criar ou importar" />
+                </label>
+                <label>
+                  <span>Origem</span>
+                  <select name="sourceType">
+                    <option value="excel">Excel de referencia</option>
+                    <option value="csv">CSV do Jira Planner</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Ficheiro</span>
+                  <input type="file" name="file" accept=".xlsx,.csv" required />
+                </label>
+                <button type="submit" class="primary-btn">Importar projeto</button>
+              </form>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Opcoes</p>
+                  <h3>Ponderacao das releases</h3>
+                </div>
+              </div>
+
+              <form id="projectOptionsForm" class="stack-form" action="javascript:void(0)">
+                <label>
+                  <span>Peso total das releases de desenvolvimento no progresso geral (%)</span>
+                  <input id="releaseWeightRange" name="release_weight_range" type="range" min="0" max="100" step="5" value="90" />
+                </label>
+                <label>
+                  <span>Valor exato do bloco releases</span>
+                  <input id="releaseWeightNumber" name="release_weight" type="number" min="0" max="100" step="1" value="90" />
+                </label>
+                <p id="weightSummary" class="helper-copy">
+                  Por defeito, o desenvolvimento das releases vale 90% do progresso global e o restante projeto vale 10%.
+                </p>
+                <div>
+                  <p class="section-kicker">Releases de Desenvolvimento</p>
+                  <div id="releaseWeightsEditor" class="release-weights-grid"></div>
+                  <p id="releaseWeightsSummary" class="helper-copy">
+                    Define o peso relativo de cada release de desenvolvimento. O sistema normaliza automaticamente estes pesos.
+                  </p>
+                </div>
+                <button type="submit" class="primary-btn">Guardar opcoes</button>
+              </form>
+            </article>
+
+            <article class="panel panel-wide">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Alertas</p>
+                  <h3>E-mails de prazo</h3>
+                </div>
+              </div>
+
+              <form id="alertForm" class="stack-form" action="javascript:void(0)">
+                <label><span>SMTP host</span><input name="smtp_host" type="text" placeholder="smtp.office365.com" /></label>
+                <label><span>Porta</span><input name="smtp_port" type="number" value="587" /></label>
+                <label><span>Utilizador</span><input name="smtp_username" type="text" /></label>
+                <label><span>Password</span><input name="smtp_password" type="password" /></label>
+                <label><span>Remetente</span><input name="sender" type="email" /></label>
+                <label><span>Destinatarios</span><input name="recipients" type="text" placeholder="pm@empresa.pt, sponsor@empresa.pt" /></label>
+                <label><span>Janela de alerta (dias)</span><input name="days_before_deadline" type="number" value="7" /></label>
+                <label class="toggle">
+                  <input name="enabled" type="checkbox" />
+                  <span>Ativar alertas automaticos</span>
+                </label>
+                <div class="inline-actions">
+                  <button type="submit" class="primary-btn">Guardar alertas</button>
+                  <button id="testAlert" type="button" class="ghost-btn">Enviar teste agora</button>
+                </div>
+              </form>
+            </article>
+
+            <article class="panel panel-wide">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">OpenAI</p>
+                  <h3>Configuracao do Chat GPT</h3>
+                </div>
+              </div>
+              <form id="aiConfigForm" class="stack-form" action="javascript:void(0)">
+                <label>
+                  <span>Chave OpenAI</span>
+                  <input name="api_key" type="password" autocomplete="off" />
+                </label>
+                <label>
+                  <span>Modelo</span>
+                  <input name="model" type="text" value="gpt-5.4" readonly />
+                </label>
+                <label>
+                  <span>Reasoning effort</span>
+                  <select name="reasoning_effort" disabled>
+                    <option value="minimal">minimal</option>
+                    <option value="low">low</option>
+                    <option value="medium">medium</option>
+                    <option value="high">high</option>
+                    <option value="xhigh" selected>xhigh</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Template steering PPTX</span>
+                  <input name="steering_template_path" type="text" />
+                </label>
+                <label>
+                  <span>Prefixo dos ficheiros AI</span>
+                  <input name="export_prefix" type="text" value="steering-executivo" />
+                </label>
+                <p class="helper-copy">
+                  A chave OpenAI deixa de ficar gravada na aplicacao. Define-a por variavel de ambiente
+                  `OPENAI_API_KEY`, por exemplo no Render, e usa aqui apenas as restantes opcoes.
+                </p>
+                <div class="inline-actions">
+                  <button type="submit" class="primary-btn">Guardar configuracao GPT</button>
+                </div>
+              </form>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Acessos</p>
+                  <h3>Criar utilizadores</h3>
+                </div>
+              </div>
+              <form id="userCreateForm" class="stack-form" action="javascript:void(0)">
+                <label>
+                  <span>Nome visivel</span>
+                  <input name="display_name" type="text" placeholder="Ex.: Equipa PMO" />
+                </label>
+                <label>
+                  <span>User</span>
+                  <input name="username" type="text" placeholder="novo.user" />
+                </label>
+                <label>
+                  <span>Password</span>
+                  <input name="password" type="password" autocomplete="new-password" placeholder="Password do utilizador" />
+                </label>
+                <p class="helper-copy">
+                  Os novos utilizadores sao criados como utilizadores normais e nao conseguem abrir a configuracao.
+                </p>
+                <button type="submit" class="primary-btn">Criar utilizador</button>
+              </form>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">Acessos</p>
+                  <h3>Utilizadores registados</h3>
+                </div>
+              </div>
+              <div id="userDirectory" class="user-directory"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

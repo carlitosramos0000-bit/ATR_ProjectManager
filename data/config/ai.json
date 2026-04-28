@@ -1,0 +1,7 @@
+{
+  "model": "gpt-5.4",
+  "reasoning_effort": "xhigh",
+  "steering_template_path": "C:/Users/ramoscv/OneDrive - CGI/BKP 20260304/Work/REN ATR/Gestão de projeto/20260323 - NOVO ATR STEERING_REN  -  v1 (CGI-REN).pptx",
+  "export_prefix": "steering-executivo",
+  "language": "pt-PT"
+}
