@@ -2,17 +2,19 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / "data"
+STORAGE_ROOT = Path(os.getenv("EP_STORAGE_DIR") or "").expanduser() if os.getenv("EP_STORAGE_DIR") else BASE_DIR
+DATA_DIR = STORAGE_ROOT / "data"
 PROJECTS_DIR = DATA_DIR / "projects"
 CONFIG_DIR = DATA_DIR / "config"
 WORKBOOKS_DIR = DATA_DIR / "workbooks"
-EXPORTS_DIR = BASE_DIR / "exports"
+EXPORTS_DIR = STORAGE_ROOT / "exports"
 
 
 def ensure_dirs() -> None:
