@@ -1872,6 +1872,65 @@ tbody tr:hover td {
   gap: 12px;
 }
 
+.storage-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.storage-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 251, 0.98));
+}
+
+.storage-card strong {
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.storage-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.storage-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  width: fit-content;
+  padding: 0 11px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.storage-pill.ok {
+  background: #effaf3;
+  border: 1px solid #cdecd8;
+  color: #17623e;
+}
+
+.storage-pill.warn {
+  background: #fff7e8;
+  border: 1px solid #f1dfb1;
+  color: #8a6500;
+}
+
+.storage-pill.danger {
+  background: #fff0f3;
+  border: 1px solid #f2cad3;
+  color: #9f1239;
+}
+
 .user-card {
   display: grid;
   gap: 10px;
@@ -2585,6 +2644,10 @@ button:disabled {
 }
 
 @media (max-width: 1080px) {
+  .storage-status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .executive-strip,
   .executive-dashboard-grid,
   .executive-dashboard-grid-compact,
@@ -2661,6 +2724,10 @@ button:disabled {
 }
 
 @media (max-width: 720px) {
+  .storage-status-grid {
+    grid-template-columns: 1fr;
+  }
+
   .brand-block {
     grid-template-columns: 1fr;
     gap: 10px;

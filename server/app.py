@@ -30,7 +30,7 @@ from .auth import (
 from .exporter import export_project
 from .project_parser import parse_jira_csv, parse_reference_workbook, refresh_project
 from .steering_deck import export_steering_deck
-from .storage import BASE_DIR, CONFIG_DIR, EXPORTS_DIR, PROJECTS_DIR, WORKBOOKS_DIR, ensure_dirs, read_json, slugify, write_json
+from .storage import BASE_DIR, CONFIG_DIR, EXPORTS_DIR, PROJECTS_DIR, WORKBOOKS_DIR, ensure_dirs, read_json, slugify, storage_status, write_json
 
 
 STATIC_DIR = BASE_DIR / "static"
@@ -152,6 +152,11 @@ class ProjectManagerHandler(BaseHTTPRequestHandler):
             if not user:
                 return None
             return self.send_json({"users": list_users()})
+        if parsed.path == "/api/storage/status":
+            user = self.require_admin()
+            if not user:
+                return None
+            return self.send_json(storage_status())
         if parsed.path.startswith("/api/"):
             user = self.require_user()
             if not user:

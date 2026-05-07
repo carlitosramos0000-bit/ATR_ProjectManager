@@ -66,6 +66,7 @@ const PAGE_CONFIG = {
 const state = {
   currentUser: null,
   users: [],
+  storageStatus: null,
   project: null,
   projects: [],
   alertConfig: null,
@@ -98,6 +99,8 @@ const els = {
   aiConfigForm: document.querySelector("#aiConfigForm"),
   userCreateForm: document.querySelector("#userCreateForm"),
   userDirectory: document.querySelector("#userDirectory"),
+  storageStatus: document.querySelector("#storageStatus"),
+  refreshStorageStatus: document.querySelector("#refreshStorageStatus"),
   projectSelect: document.querySelector("#projectSelect"),
   loadProject: document.querySelector("#loadProject"),
   refreshProjects: document.querySelector("#refreshProjects"),
@@ -182,6 +185,7 @@ function authLabel() {
 function resetWorkspaceState() {
   state.project = null;
   state.projects = [];
+  state.storageStatus = null;
   state.alertConfig = null;
   state.aiConfig = null;
   state.users = [];
@@ -272,6 +276,84 @@ function renderUserDirectory() {
         </article>`,
     )
     .join("");
+}
+
+function storageBadgeClass(status) {
+  if (status === "ok") return "ok";
+  if (status === "danger") return "danger";
+  return "warn";
+}
+
+function storageCard(title, value, detail, status = "warn") {
+  return `
+    <article class="storage-card">
+      <span class="storage-pill ${storageBadgeClass(status)}">${escapeHtml(value)}</span>
+      <strong>${escapeHtml(title)}</strong>
+      <p>${escapeHtml(detail).replaceAll("\n", "<br />")}</p>
+    </article>`;
+}
+
+function renderStorageStatus() {
+  if (!els.storageStatus) return;
+  if (!isAdmin()) {
+    els.storageStatus.innerHTML = `<p class="muted">A validacao de storage esta reservada ao administrador.</p>`;
+    return;
+  }
+  if (!state.storageStatus) {
+    els.storageStatus.innerHTML = `<p class="muted">Ainda nao foi carregado nenhum diagnostico de storage.</p>`;
+    return;
+  }
+
+  const status = state.storageStatus;
+  const persistenceValue = status.persistent_storage_configured ? "configurado" : "nao configurado";
+  const persistenceDetail = status.persistent_storage_configured
+    ? `EP_STORAGE_DIR = ${status.ep_storage_dir || "n/d"}`
+    : "Sem EP_STORAGE_DIR, a app grava no filesystem local do servico.";
+  const persistenceState = status.persistent_storage_configured ? "ok" : "danger";
+
+  const usersValue = status.users_file_exists ? "users.json encontrado" : "users.json ainda nao existe";
+  const usersDetail = [
+    `Ficheiro: ${status.users_file || "n/d"}`,
+    `Ultima atualizacao: ${status.users_file_updated_at || "n/d"}`,
+    `Tamanho: ${status.users_file_size || 0} bytes`,
+  ].join("\n");
+  const usersState = status.users_file_exists ? "ok" : "warn";
+
+  const writableValue = status.writable ? "gravacao OK" : "falha na gravacao";
+  const writableDetail = status.writable
+    ? `Probe escrita com sucesso em ${status.probe_path || "n/d"}`
+    : `Nao foi possivel escrever no probe. ${status.probe_error || ""}`.trim();
+  const writableState = status.writable ? "ok" : "danger";
+
+  const rootDetail = [
+    `Storage root: ${status.storage_root || "n/d"}`,
+    `Projetos json: ${status.projects_count || 0}`,
+    `Workbooks: ${status.workbooks_dir || "n/d"}`,
+    `Exports: ${status.exports_dir || "n/d"}`,
+  ].join("\n");
+
+  const renderValue = status.on_render ? "render" : "local";
+  const renderDetail = status.on_render
+    ? status.looks_like_render_persistent_mount
+      ? "O caminho atual parece alinhado com um mount path persistente do Render."
+      : "A app esta no Render, mas o storage root nao parece estar num mount path persistente."
+    : "A app esta a correr fora do Render.";
+  const renderState = status.on_render
+    ? (status.looks_like_render_persistent_mount ? "ok" : "warn")
+    : "warn";
+
+  els.storageStatus.innerHTML = `
+    ${storageCard("Persistencia configurada", persistenceValue, persistenceDetail, persistenceState)}
+    ${storageCard("Ficheiro de utilizadores", usersValue, usersDetail, usersState)}
+    ${storageCard("Teste de gravacao", writableValue, writableDetail, writableState)}
+    ${storageCard("Ambiente", renderValue, renderDetail, renderState)}
+    ${storageCard("Caminhos ativos", "storage ativo", rootDetail, "warn")}
+  `;
+}
+
+function renderStorageStatusMessage(message) {
+  if (!els.storageStatus) return;
+  els.storageStatus.innerHTML = `<p class="muted">${escapeHtml(message)}</p>`;
 }
 
 function parseIsoDate(value) {
@@ -1951,6 +2033,9 @@ function renderWorkspace() {
   if (els.addPlanRow) {
     els.addPlanRow.disabled = !state.project || !state.currentUser;
   }
+  if (els.refreshStorageStatus) {
+    els.refreshStorageStatus.disabled = !isAdmin();
+  }
   renderExportButton();
   if (els.userCreateForm) {
     for (const element of els.userCreateForm.querySelectorAll("button, input")) {
@@ -1964,6 +2049,7 @@ function renderWorkspace() {
     }
   }
   renderUserDirectory();
+  renderStorageStatus();
 
   if (!state.currentUser || !state.project) {
     renderSidebarOverview({});
@@ -2234,15 +2320,38 @@ async function loadUsers() {
   renderUserDirectory();
 }
 
+async function loadStorageStatus({ quiet = false } = {}) {
+  if (!isAdmin()) {
+    state.storageStatus = null;
+    renderStorageStatus();
+    return null;
+  }
+  if (!quiet) {
+    renderStorageStatusMessage("A validar storage no servidor...");
+  }
+  try {
+    const payload = await fetchJson("/api/storage/status");
+    state.storageStatus = payload;
+    renderStorageStatus();
+    return payload;
+  } catch (error) {
+    state.storageStatus = null;
+    renderStorageStatusMessage(`Nao foi possivel validar o storage. ${error.message}`);
+    return null;
+  }
+}
+
 async function hydrateWorkspace() {
   await loadProjects();
   if (isAdmin()) {
-    await Promise.all([loadAlertConfig(), loadAiConfig(), loadUsers()]);
+    await Promise.all([loadAlertConfig(), loadAiConfig(), loadUsers(), loadStorageStatus({ quiet: true })]);
   } else {
     state.alertConfig = null;
     state.aiConfig = null;
     state.users = [];
+    state.storageStatus = null;
     renderUserDirectory();
+    renderStorageStatus();
   }
 
   const remembered = window.localStorage.getItem(STORAGE_KEYS.project);
@@ -2332,6 +2441,7 @@ async function handleUserCreation() {
   });
   state.users = result.users || state.users;
   renderUserDirectory();
+  await loadStorageStatus({ quiet: true });
   els.userCreateForm.reset();
   window.alert("Utilizador criado com sucesso.");
 }
@@ -2831,6 +2941,10 @@ els.userCreateForm.addEventListener("submit", async (event) => {
   } catch (error) {
     handleError(error);
   }
+});
+
+els.refreshStorageStatus?.addEventListener("click", async () => {
+  await loadStorageStatus();
 });
 
 els.aiChatForm.addEventListener("submit", async (event) => {
