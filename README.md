@@ -28,3 +28,28 @@ Depois abrir:
 - Os excels exportados ficam em `exports/`.
 - O motor de alertas corre de hora a hora enquanto a aplicacao estiver ligada.
 
+## Persistencia no Render
+
+Sem um disco persistente, o Render perde quaisquer alteracoes em ficheiros locais quando a app reinicia ou faz redeploy.
+
+Para manter utilizadores, projetos e exports:
+
+1. Adiciona um **Persistent Disk** ao serviço.
+2. Usa como mount path:
+
+```text
+/opt/render/project/src/storage
+```
+
+3. Define a environment variable:
+
+```text
+EP_STORAGE_DIR=/opt/render/project/src/storage
+```
+
+Com isso, a aplicacao passa a guardar:
+
+- utilizadores em `storage/data/config/users.json`
+- projetos em `storage/data/projects/`
+- workbooks em `storage/data/workbooks/`
+- exports em `storage/exports/`

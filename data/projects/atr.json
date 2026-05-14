@@ -2,7 +2,7 @@
   "project": "ATR",
   "source_name": "Jira_Snapshot_Gantt_Replanned_Releases_v2 (002).xlsx",
   "imported_at": "2026-04-20T18:00:32",
-  "updated_at": "2026-04-24T16:06:37",
+  "updated_at": "2026-05-13T16:59:39",
   "source_type": "excel",
   "settings": {
     "release_weight": 85.0,
@@ -12,6 +12,7 @@
       "Release 1,9": 7.69,
       "Release 1,10": 7.69,
       "Release 1,11": 7.69,
+      "1.6": 7.69,
       "release em": 0,
       "Release Phase": 0,
       "Release Phase 1.1 - Gestão de acessos, auditorias e parametrizações": 10.0,
@@ -30,6 +31,60 @@
     }
   },
   "tasks": [
+    {
+      "key": "ATR-MAN-003",
+      "title": "Agendamento de reunião de kickoff com demo",
+      "type": "Task",
+      "parent": "",
+      "assignee": "",
+      "status": "Done",
+      "start": "2026-05-13",
+      "end": "2026-05-15",
+      "notes": "Alteração de caderno de testes por parte da Paula\nAgendandamento para segunda pelo ewerton",
+      "duration_days": 3,
+      "release": "1.6",
+      "is_release_item": true,
+      "release_component": "development",
+      "line": 1,
+      "phase": "1.6",
+      "bucket": "completed"
+    },
+    {
+      "key": "ATR-MAN-002",
+      "title": "Utilização do keepass",
+      "type": "Task",
+      "parent": "ISO 27001",
+      "assignee": "Ramos, Carlos (OS Iberia AM)",
+      "status": "In Progress",
+      "start": "2026-04-20",
+      "end": "2026-05-20",
+      "notes": "Mapear a drive na nossa maquina para acesso partilhado",
+      "duration_days": 31,
+      "release": "",
+      "is_release_item": false,
+      "release_component": "",
+      "line": 2,
+      "phase": "ISO 27001",
+      "bucket": "due_soon"
+    },
+    {
+      "key": "ATR-MAN-001",
+      "title": "Processo e implementação do DR",
+      "type": "Task",
+      "parent": "DR",
+      "assignee": "",
+      "status": "In Progress",
+      "start": "2026-04-01",
+      "end": "2026-05-19",
+      "notes": "Criado um manual do DR e surgiram algumas duvidas do lado da REN\nValidar tecnicamente se a conectividade é temporária ou permanente\nConfirmar fluxos mínimos de rede necessários para Hot Standby\nRever documento técnico e consolidar dúvidas\nReavaliar aderência da proposta à filosofia de isolamento\nClarificar runbook de failover/switchover\nSimular cenário de failover em ambiente controlado\nProduzir decisão arquitetural formal",
+      "duration_days": 49,
+      "release": "",
+      "is_release_item": false,
+      "release_component": "",
+      "line": 3,
+      "phase": "DR",
+      "bucket": "due_soon"
+    },
     {
       "key": "ATR-3003",
       "title": "Ligação SIGO A QA ATR",
@@ -273,7 +328,7 @@
       "status": "External Pending",
       "start": "2026-03-02",
       "end": "2026-05-29",
-      "notes": "Pendente de aceitação do hardening realizado em pre",
+      "notes": "Pendente de aceitação do hardening realizado em pre\nPrevista resposta na proxima semana",
       "duration_days": 89,
       "release": "",
       "is_release_item": false,
@@ -1108,7 +1163,7 @@
       "release_component": "",
       "line": 63,
       "phase": "Data Migration",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3070",
@@ -1702,7 +1757,7 @@
       "release_component": "development",
       "line": 96,
       "phase": "Releases",
-      "bucket": "active"
+      "bucket": "due_soon"
     },
     {
       "key": "ATR-3232",
@@ -1713,7 +1768,7 @@
       "status": "Done",
       "start": "2025-11-06",
       "end": "2026-03-23",
-      "notes": "",
+      "notes": "Release dada como aceite e para avançar para entrega as areas",
       "duration_days": 138,
       "release": "Release Phase 1.6 - Leituras e nomeações",
       "is_release_item": true,
@@ -1738,7 +1793,7 @@
       "release_component": "support",
       "line": 98,
       "phase": "Release Phase 1.6 - Leituras e nomeações",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3200",
@@ -1756,7 +1811,7 @@
       "release_component": "support",
       "line": 99,
       "phase": "Release Phase 1.6 - Leituras e nomeações",
-      "bucket": "active"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3201",
@@ -1774,7 +1829,7 @@
       "release_component": "support",
       "line": 100,
       "phase": "Release Phase 1.6 - Leituras e nomeações",
-      "bucket": "upcoming"
+      "bucket": "due_soon"
     },
     {
       "key": "ATR-3151",
@@ -1810,7 +1865,7 @@
       "release_component": "development",
       "line": 106,
       "phase": "Release Phase 1.7 - Logística de Transporte",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3163",
@@ -1828,7 +1883,7 @@
       "release_component": "support",
       "line": 107,
       "phase": "Release Phase 1.7 - Logística de Transporte",
-      "bucket": "upcoming"
+      "bucket": "due_soon"
     },
     {
       "key": "ATR-3202",
@@ -1846,7 +1901,7 @@
       "release_component": "support",
       "line": 108,
       "phase": "Release Phase 1.7 - Logística de Transporte",
-      "bucket": "upcoming"
+      "bucket": "active"
     },
     {
       "key": "ATR-3203",
@@ -2386,7 +2441,7 @@
       "release_component": "",
       "line": 138,
       "phase": "Fase 1",
-      "bucket": "active"
+      "bucket": "due_soon"
     },
     {
       "key": "ATR-3214",
@@ -2422,7 +2477,7 @@
       "release_component": "",
       "line": 140,
       "phase": "Testes Performance",
-      "bucket": "upcoming"
+      "bucket": "due_soon"
     },
     {
       "key": "ATR-3073",
@@ -2440,7 +2495,7 @@
       "release_component": "",
       "line": 141,
       "phase": "Realização de PAT durante o período de transição.",
-      "bucket": "upcoming"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3170",
@@ -2664,7 +2719,7 @@
       "type": "Story",
       "parent": "Paralell Environment",
       "assignee": "nan",
-      "status": "Open",
+      "status": "Done",
       "start": "2026-05-31",
       "end": "2027-01-08",
       "notes": "",
@@ -2674,7 +2729,7 @@
       "release_component": "",
       "line": 154,
       "phase": "Paralell Environment",
-      "bucket": "upcoming"
+      "bucket": "completed"
     },
     {
       "key": "ATR-3104",
@@ -2682,7 +2737,7 @@
       "type": "Task",
       "parent": "Definição de trabalhos do paralelo",
       "assignee": "REN",
-      "status": "Open",
+      "status": "Done",
       "start": "2026-03-31",
       "end": "2026-05-31",
       "notes": "",
@@ -2692,7 +2747,7 @@
       "release_component": "",
       "line": 155,
       "phase": "Definição de trabalhos do paralelo",
-      "bucket": "active"
+      "bucket": "completed"
     },
     {
       "key": "ATR-3105",
@@ -2700,7 +2755,7 @@
       "type": "Task",
       "parent": "Definição de trabalhos do paralelo",
       "assignee": "REN",
-      "status": "Open",
+      "status": "Done",
       "start": "2026-03-31",
       "end": "2026-05-31",
       "notes": "",
@@ -2710,7 +2765,7 @@
       "release_component": "",
       "line": 156,
       "phase": "Definição de trabalhos do paralelo",
-      "bucket": "active"
+      "bucket": "completed"
     },
     {
       "key": "ATR-3216",
@@ -2736,7 +2791,7 @@
       "type": "Task",
       "parent": "Definição de trabalhos do paralelo",
       "assignee": "Ramos, Carlos (OS Iberia AM)",
-      "status": "Open",
+      "status": "Done",
       "start": "2026-12-07",
       "end": "2027-01-08",
       "notes": "",
@@ -2746,7 +2801,7 @@
       "release_component": "",
       "line": 158,
       "phase": "Definição de trabalhos do paralelo",
-      "bucket": "upcoming"
+      "bucket": "completed"
     },
     {
       "key": "ATR-3103",
@@ -2754,7 +2809,7 @@
       "type": "Task",
       "parent": "Definição de trabalhos do paralelo",
       "assignee": "nan",
-      "status": "Open",
+      "status": "Done",
       "start": "2026-12-07",
       "end": "2027-01-08",
       "notes": "",
@@ -2764,7 +2819,7 @@
       "release_component": "",
       "line": 159,
       "phase": "Definição de trabalhos do paralelo",
-      "bucket": "upcoming"
+      "bucket": "completed"
     },
     {
       "key": "ATR-3101",
@@ -5108,6 +5163,12 @@
         "title": "US - Integração Estatística >> Disponibilização da Informação gerada"
       }
     ],
+    "1.6": [
+      {
+        "key": "ATR-MAN-003",
+        "title": "Agendamento de reunião de kickoff com demo"
+      }
+    ],
     "release em": [
       {
         "key": "ATR-3082",
@@ -5376,20 +5437,20 @@
     ]
   },
   "metrics": {
-    "total": 175,
-    "completed": 85,
-    "active": 26,
-    "overdue": 4,
-    "due_soon": 3,
-    "upcoming": 57,
-    "completion_ratio": 48.6,
-    "weighted_completion_ratio": 45.7,
-    "release_completion_ratio": 44.1,
-    "weighted_release_completion_ratio": 44.8,
-    "non_release_completion_ratio": 50.9,
+    "total": 178,
+    "completed": 91,
+    "active": 22,
+    "overdue": 9,
+    "due_soon": 7,
+    "upcoming": 49,
+    "completion_ratio": 51.1,
+    "weighted_completion_ratio": 48.7,
+    "release_completion_ratio": 45.0,
+    "weighted_release_completion_ratio": 47.7,
+    "non_release_completion_ratio": 54.2,
     "release_weight": 85.0,
-    "release_total": 59,
-    "non_release_total": 116,
+    "release_total": 60,
+    "non_release_total": 118,
     "top_releases": [
       [
         "Release Phase",
@@ -5427,7 +5488,7 @@
         "support_completion_ratio": 0,
         "support_cap": 10.0,
         "weight": 7.69,
-        "normalized_weight": 5.6
+        "normalized_weight": 5.3
       },
       {
         "name": "Release 1,8",
@@ -5443,7 +5504,7 @@
         "support_completion_ratio": 0,
         "support_cap": 10.0,
         "weight": 7.69,
-        "normalized_weight": 5.6
+        "normalized_weight": 5.3
       },
       {
         "name": "Release 1,9",
@@ -5459,7 +5520,7 @@
         "support_completion_ratio": 0,
         "support_cap": 10.0,
         "weight": 7.69,
-        "normalized_weight": 5.6
+        "normalized_weight": 5.3
       },
       {
         "name": "Release 1,10",
@@ -5475,7 +5536,7 @@
         "support_completion_ratio": 0,
         "support_cap": 10.0,
         "weight": 7.69,
-        "normalized_weight": 5.6
+        "normalized_weight": 5.3
       },
       {
         "name": "Release 1,11",
@@ -5491,7 +5552,23 @@
         "support_completion_ratio": 0,
         "support_cap": 10.0,
         "weight": 7.69,
-        "normalized_weight": 5.6
+        "normalized_weight": 5.3
+      },
+      {
+        "name": "1.6",
+        "total": 1,
+        "completed": 1,
+        "completion_ratio": 100.0,
+        "effective_completion_ratio": 100.0,
+        "development_total": 1,
+        "development_completed": 1,
+        "development_completion_ratio": 100.0,
+        "support_total": 0,
+        "support_completed": 0,
+        "support_completion_ratio": 0,
+        "support_cap": 10.0,
+        "weight": 7.69,
+        "normalized_weight": 5.3
       },
       {
         "name": "release em",
@@ -5539,7 +5616,7 @@
         "support_completion_ratio": 100.0,
         "support_cap": 10.0,
         "weight": 10.0,
-        "normalized_weight": 7.2
+        "normalized_weight": 6.8
       },
       {
         "name": "Release Phase 1.2 - Gestão Comercial & PIRS",
@@ -5555,7 +5632,7 @@
         "support_completion_ratio": 100.0,
         "support_cap": 10.0,
         "weight": 7.0,
-        "normalized_weight": 5.1
+        "normalized_weight": 4.8
       },
       {
         "name": "Release Phase 1.4 - Mercado Organizado",
@@ -5571,7 +5648,7 @@
         "support_completion_ratio": 100.0,
         "support_cap": 10.0,
         "weight": 10.0,
-        "normalized_weight": 7.2
+        "normalized_weight": 6.8
       },
       {
         "name": "Release Phase 1.3 - Pontos de ligação, Limites de Existências, Indisponibilidades e Capacidades Tecnicas",
@@ -5587,7 +5664,7 @@
         "support_completion_ratio": 100.0,
         "support_cap": 10.0,
         "weight": 7.0,
-        "normalized_weight": 5.1
+        "normalized_weight": 4.8
       },
       {
         "name": "Release Phase 1.5 - Produtos de Capacidade, Operação e Programação",
@@ -5603,7 +5680,7 @@
         "support_completion_ratio": 100.0,
         "support_cap": 10.0,
         "weight": 10.0,
-        "normalized_weight": 7.2
+        "normalized_weight": 6.8
       },
       {
         "name": "Release Phase 1.6 - Leituras e nomeações",
@@ -5619,7 +5696,7 @@
         "support_completion_ratio": 0.0,
         "support_cap": 10.0,
         "weight": 20.0,
-        "normalized_weight": 14.4
+        "normalized_weight": 13.7
       },
       {
         "name": "Release Phase 1.7 - Logística de Transporte",
@@ -5635,7 +5712,7 @@
         "support_completion_ratio": 0.0,
         "support_cap": 10.0,
         "weight": 6.0,
-        "normalized_weight": 4.3
+        "normalized_weight": 4.1
       },
       {
         "name": "Release Phase 1.8 - Balanços e Ajustamentos",
@@ -5651,7 +5728,7 @@
         "support_completion_ratio": 0.0,
         "support_cap": 10.0,
         "weight": 8.0,
-        "normalized_weight": 5.8
+        "normalized_weight": 5.5
       },
       {
         "name": "Release Phase 1.9 - Faturação e Encargos",
@@ -5667,7 +5744,7 @@
         "support_completion_ratio": 0.0,
         "support_cap": 10.0,
         "weight": 8.0,
-        "normalized_weight": 5.8
+        "normalized_weight": 5.5
       },
       {
         "name": "Release Phase 1.10 - Garantias e Posição Financeira",
@@ -5683,7 +5760,7 @@
         "support_completion_ratio": 0.0,
         "support_cap": 10.0,
         "weight": 8.0,
-        "normalized_weight": 5.8
+        "normalized_weight": 5.5
       },
       {
         "name": "Release Phase 1.11 - Processos, Automação e Notificações",
@@ -5737,7 +5814,7 @@
     "top_assignees": [
       [
         "Ramos, Carlos (OS Iberia AM)",
-        76
+        77
       ],
       [
         "REN",

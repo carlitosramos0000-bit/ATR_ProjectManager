@@ -6,7 +6,15 @@
       "is_admin": true,
       "password_hash": "pbkdf2_sha256$240000$e76bacf9912ac69fa720942f535f12a5$ddec81ee79086cb778754a3e7dbaf3a58928b90feef71a61bdd9e084b55e1172",
       "created_at": "2026-04-28T10:52:21",
-      "last_login_at": "2026-04-28T11:21:34"
+      "last_login_at": "2026-05-13T15:28:28"
+    },
+    {
+      "username": "abarbosa",
+      "display_name": "Ana Barbosa",
+      "is_admin": false,
+      "password_hash": "pbkdf2_sha256$240000$22fa22eb8c1461d8d363bac24edadf76$328bfc8af514b6e1f9d2bc16f3e9d4a00975dae6fd5d2d2d6c0d52bba5f21889",
+      "created_at": "2026-05-13T15:29:40",
+      "last_login_at": ""
     }
   ]
 }
