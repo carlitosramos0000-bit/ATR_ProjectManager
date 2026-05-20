@@ -2,7 +2,7 @@
   "project": "ATR",
   "source_name": "Jira_Snapshot_Gantt_Replanned_Releases_v2 (002).xlsx",
   "imported_at": "2026-04-20T18:00:32",
-  "updated_at": "2026-05-13T16:59:39",
+  "updated_at": "2026-05-20T12:25:45",
   "source_type": "excel",
   "settings": {
     "release_weight": 85.0,
@@ -55,7 +55,7 @@
       "type": "Task",
       "parent": "ISO 27001",
       "assignee": "Ramos, Carlos (OS Iberia AM)",
-      "status": "In Progress",
+      "status": "Blocked",
       "start": "2026-04-20",
       "end": "2026-05-20",
       "notes": "Mapear a drive na nossa maquina para acesso partilhado",
@@ -73,17 +73,17 @@
       "type": "Task",
       "parent": "DR",
       "assignee": "",
-      "status": "In Progress",
+      "status": "Ready for Work",
       "start": "2026-04-01",
       "end": "2026-05-19",
-      "notes": "Criado um manual do DR e surgiram algumas duvidas do lado da REN\nValidar tecnicamente se a conectividade é temporária ou permanente\nConfirmar fluxos mínimos de rede necessários para Hot Standby\nRever documento técnico e consolidar dúvidas\nReavaliar aderência da proposta à filosofia de isolamento\nClarificar runbook de failover/switchover\nSimular cenário de failover em ambiente controlado\nProduzir decisão arquitetural formal",
+      "notes": "Criado um manual do DR e surgiram algumas duvidas do lado da REN\nValidar tecnicamente se a conectividade é temporária ou permanente\nConfirmar fluxos mínimos de rede necessários para Hot Standby\nRever documento técnico e consolidar dúvidas\nReavaliar aderência da proposta à filosofia de isolamento\nClarificar runbook de failover/switchover\nSimular cenário de failover em ambiente controlado\nProduzir decisão arquitetural formal\n\"Vamos avançar com a implementação das regras pedidas, pois foi dado como aceite por nós e com aval da cibersegurança que os ambientes de PRD e DR estarão cruzados nas suas ligações para garantir a funcionalidade da plataforma Outsystems, sendo que será mantida a filosofia de ATIVO-PASSIVO entre PRD e DR e as máquinas do ambiente passivo deverão estar em standby.\"\ne-mail de 20/05/2026 10:16",
       "duration_days": 49,
       "release": "",
       "is_release_item": false,
       "release_component": "",
       "line": 3,
       "phase": "DR",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3003",
@@ -328,7 +328,7 @@
       "status": "External Pending",
       "start": "2026-03-02",
       "end": "2026-05-29",
-      "notes": "Pendente de aceitação do hardening realizado em pre\nPrevista resposta na proxima semana",
+      "notes": "Pendente de aceitação do hardening realizado em pre\n(13-05)Prevista resposta na proxima semana\n(20-05)Ainda não recebemos feedback",
       "duration_days": 89,
       "release": "",
       "is_release_item": false,
@@ -1757,7 +1757,7 @@
       "release_component": "development",
       "line": 96,
       "phase": "Releases",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3232",
@@ -1829,7 +1829,7 @@
       "release_component": "support",
       "line": 100,
       "phase": "Release Phase 1.6 - Leituras e nomeações",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3151",
@@ -1840,7 +1840,7 @@
       "status": "In Progress",
       "start": "2026-02-19",
       "end": "2026-05-29",
-      "notes": "",
+      "notes": "Ficamos sem acesso à bd do legado a dia 09-05 e será reestabelecido hoje (20-05)",
       "duration_days": 100,
       "release": "Release Phase",
       "is_release_item": true,
@@ -1883,7 +1883,7 @@
       "release_component": "support",
       "line": 107,
       "phase": "Release Phase 1.7 - Logística de Transporte",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3202",
@@ -1901,7 +1901,7 @@
       "release_component": "support",
       "line": 108,
       "phase": "Release Phase 1.7 - Logística de Transporte",
-      "bucket": "active"
+      "bucket": "due_soon"
     },
     {
       "key": "ATR-3203",
@@ -2344,7 +2344,7 @@
       "status": "External Pending",
       "start": "2025-06-03",
       "end": "2026-03-06",
-      "notes": "Relatorio enviado e em validação pela inetum",
+      "notes": "(06-03)Relatorio enviado e em validação pela inetum\n(20-05) ainda sem resposta",
       "duration_days": 277,
       "release": "",
       "is_release_item": false,
@@ -2441,7 +2441,7 @@
       "release_component": "",
       "line": 138,
       "phase": "Fase 1",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3214",
@@ -2477,7 +2477,7 @@
       "release_component": "",
       "line": 140,
       "phase": "Testes Performance",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3073",
@@ -5439,9 +5439,9 @@
   "metrics": {
     "total": 178,
     "completed": 91,
-    "active": 22,
-    "overdue": 9,
-    "due_soon": 7,
+    "active": 21,
+    "overdue": 15,
+    "due_soon": 2,
     "upcoming": 49,
     "completion_ratio": 51.1,
     "weighted_completion_ratio": 48.7,
