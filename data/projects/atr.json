@@ -2,7 +2,7 @@
   "project": "ATR",
   "source_name": "Jira_Snapshot_Gantt_Replanned_Releases_v2 (002).xlsx",
   "imported_at": "2026-04-20T18:00:32",
-  "updated_at": "2026-05-20T12:25:45",
+  "updated_at": "2026-06-03T11:42:22",
   "source_type": "excel",
   "settings": {
     "release_weight": 85.0,
@@ -55,17 +55,17 @@
       "type": "Task",
       "parent": "ISO 27001",
       "assignee": "Ramos, Carlos (OS Iberia AM)",
-      "status": "Blocked",
+      "status": "External Pending",
       "start": "2026-04-20",
       "end": "2026-05-20",
-      "notes": "Mapear a drive na nossa maquina para acesso partilhado",
+      "notes": "Mapear a drive na nossa maquina para acesso partilhado\nTestes efetuados e mapeamentos com a CGI, não é possivel, REN está a encontrar nova solução.",
       "duration_days": 31,
       "release": "",
       "is_release_item": false,
       "release_component": "",
       "line": 2,
       "phase": "ISO 27001",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-MAN-001",
@@ -73,10 +73,10 @@
       "type": "Task",
       "parent": "DR",
       "assignee": "",
-      "status": "Ready for Work",
+      "status": "External Pending",
       "start": "2026-04-01",
       "end": "2026-05-19",
-      "notes": "Criado um manual do DR e surgiram algumas duvidas do lado da REN\nValidar tecnicamente se a conectividade é temporária ou permanente\nConfirmar fluxos mínimos de rede necessários para Hot Standby\nRever documento técnico e consolidar dúvidas\nReavaliar aderência da proposta à filosofia de isolamento\nClarificar runbook de failover/switchover\nSimular cenário de failover em ambiente controlado\nProduzir decisão arquitetural formal\n\"Vamos avançar com a implementação das regras pedidas, pois foi dado como aceite por nós e com aval da cibersegurança que os ambientes de PRD e DR estarão cruzados nas suas ligações para garantir a funcionalidade da plataforma Outsystems, sendo que será mantida a filosofia de ATIVO-PASSIVO entre PRD e DR e as máquinas do ambiente passivo deverão estar em standby.\"\ne-mail de 20/05/2026 10:16",
+      "notes": "Criado um manual do DR e surgiram algumas duvidas do lado da REN\nValidar tecnicamente se a conectividade é temporária ou permanente\nConfirmar fluxos mínimos de rede necessários para Hot Standby\nRever documento técnico e consolidar dúvidas\nReavaliar aderência da proposta à filosofia de isolamento\nClarificar runbook de failover/switchover\nSimular cenário de failover em ambiente controlado\nProduzir decisão arquitetural formal\n\"Vamos avançar com a implementação das regras pedidas, pois foi dado como aceite por nós e com aval da cibersegurança que os ambientes de PRD e DR estarão cruzados nas suas ligações para garantir a funcionalidade da plataforma Outsystems, sendo que será mantida a filosofia de ATIVO-PASSIVO entre PRD e DR e as máquinas do ambiente passivo deverão estar em standby.\"\ne-mail de 20/05/2026 10:16\nAguardamos a criação de regras de firewall entre maquinas\n(03-06) Em confirmação com Marcio",
       "duration_days": 49,
       "release": "",
       "is_release_item": false,
@@ -91,17 +91,17 @@
       "type": "Task",
       "parent": "Infraestrutura",
       "assignee": "REN",
-      "status": "In Progress",
+      "status": "Done",
       "start": "2026-04-22",
       "end": "2026-07-10",
-      "notes": "",
+      "notes": "Ligação criada e comunicações ok.",
       "duration_days": 80,
       "release": "",
       "is_release_item": false,
       "release_component": "",
       "line": 4,
       "phase": "Infraestrutura",
-      "bucket": "active"
+      "bucket": "completed"
     },
     {
       "key": "ATR-2998",
@@ -328,14 +328,14 @@
       "status": "External Pending",
       "start": "2026-03-02",
       "end": "2026-05-29",
-      "notes": "Pendente de aceitação do hardening realizado em pre\n(13-05)Prevista resposta na proxima semana\n(20-05)Ainda não recebemos feedback",
+      "notes": "Pendente de aceitação do hardening realizado em pre\n(13-05) Prevista resposta na proxima semana\n(20-05) Ainda não recebemos feedback\n(27-05) Ainda não recebemos feedback\n(03-06)Afinal o pedido ainda não foi feito",
       "duration_days": 89,
       "release": "",
       "is_release_item": false,
       "release_component": "",
       "line": 17,
       "phase": "Instalação de máquinas e infraestrutura",
-      "bucket": "active"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-2999",
@@ -375,7 +375,7 @@
     },
     {
       "key": "ATR-3045",
-      "title": "792US - Em Aprovação",
+      "title": "US - Em Aprovação",
       "type": "Story",
       "parent": "Levantamento de requisitos Funcionais",
       "assignee": "Ramos, Carlos (OS Iberia AM)",
@@ -393,7 +393,7 @@
     },
     {
       "key": "ATR-3044",
-      "title": "905US - Em aprovação",
+      "title": "US - Em aprovação",
       "type": "Story",
       "parent": "Levantamento de requisitos Funcionais",
       "assignee": "Ramos, Carlos (OS Iberia AM)",
@@ -1847,7 +1847,7 @@
       "release_component": "development",
       "line": 105,
       "phase": "Releases",
-      "bucket": "active"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3233",
@@ -1858,7 +1858,7 @@
       "status": "In Progress",
       "start": "2026-02-19",
       "end": "2026-04-30",
-      "notes": "",
+      "notes": "2026-06-03 - Efetuada demonstração a SD sobre processos de navios e cisternas\nenviado e-mail: Follow-up Demo – Navios e Cisternas",
       "duration_days": 71,
       "release": "Release Phase 1.7 - Logística de Transporte",
       "is_release_item": true,
@@ -1901,7 +1901,7 @@
       "release_component": "support",
       "line": 108,
       "phase": "Release Phase 1.7 - Logística de Transporte",
-      "bucket": "due_soon"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3203",
@@ -1919,7 +1919,7 @@
       "release_component": "support",
       "line": 109,
       "phase": "Release Phase 1.7 - Logística de Transporte",
-      "bucket": "upcoming"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3152",
@@ -2344,7 +2344,7 @@
       "status": "External Pending",
       "start": "2025-06-03",
       "end": "2026-03-06",
-      "notes": "(06-03)Relatorio enviado e em validação pela inetum\n(20-05) ainda sem resposta",
+      "notes": "(06-03)Relatorio enviado e em validação pela inetum\n(20-05) ainda sem resposta\n(27-05) ainda sem resposta\n(03-06) esperamos resposta hoje",
       "duration_days": 277,
       "release": "",
       "is_release_item": false,
@@ -2585,7 +2585,7 @@
       "release_component": "",
       "line": 146,
       "phase": "Envolvimento Agentes e ORD from REN",
-      "bucket": "active"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3189",
@@ -2629,7 +2629,7 @@
       "type": "Story",
       "parent": "Envolvimento Agentes e ORD from REN",
       "assignee": "Ramos, Carlos (OS Iberia AM)",
-      "status": "Open",
+      "status": "In Progress",
       "start": "2026-07-18",
       "end": "2026-07-18",
       "notes": "",
@@ -2711,7 +2711,7 @@
       "release_component": "",
       "line": 153,
       "phase": "Paralell Environment",
-      "bucket": "active"
+      "bucket": "overdue"
     },
     {
       "key": "ATR-3098",
@@ -2837,7 +2837,7 @@
       "release_component": "",
       "line": 160,
       "phase": "Paralell Environment",
-      "bucket": "upcoming"
+      "bucket": "active"
     },
     {
       "key": "ATR-3107",
@@ -5438,16 +5438,16 @@
   },
   "metrics": {
     "total": 178,
-    "completed": 91,
-    "active": 21,
-    "overdue": 15,
-    "due_soon": 2,
-    "upcoming": 49,
-    "completion_ratio": 51.1,
-    "weighted_completion_ratio": 48.7,
+    "completed": 92,
+    "active": 17,
+    "overdue": 22,
+    "due_soon": 0,
+    "upcoming": 47,
+    "completion_ratio": 51.7,
+    "weighted_completion_ratio": 48.8,
     "release_completion_ratio": 45.0,
     "weighted_release_completion_ratio": 47.7,
-    "non_release_completion_ratio": 54.2,
+    "non_release_completion_ratio": 55.1,
     "release_weight": 85.0,
     "release_total": 60,
     "non_release_total": 118,
